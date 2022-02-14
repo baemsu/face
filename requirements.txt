@@ -3,3 +3,10 @@ Pillow
 opencv-python-headless
 dlib-bin
 streamlit
+joblib
+matplotlib
+keras
+scipy
+opencv
+seaborn
+skimage
