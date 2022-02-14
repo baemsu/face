@@ -1,3 +1,4 @@
+name: face
 channels:
 - conda-forge
 - defaults
@@ -5,23 +6,22 @@ dependencies:
 - joblib
 - pip
 - pip:
-      - matplotlib
-      - joblib
-      - pathlib
-      - keras
-      - dlib
-      - numpy
-      - scipy
-      - opencv
-      - face_recognition
-      - pandas
-      - joblib
-      - matplotlib
-      - seaborn
-      - plotly
-      - PIL
-      - pillow
-      - os
-      - cv2 
-      - skimage
+  - matplotlib
+  - joblib
+  - pathlib
+  - keras
+  - dlib
+  - numpy
+  - scipy
+  - opencv
+  - face_recognition
+  - pandas
+  - seaborn
+  - plotly
+  - PIL
+  - pillow
+  - os
+  - cv2 
+  - skimage
+  - streamlit
 
