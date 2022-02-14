@@ -1,8 +1,6 @@
 numpy
 Pillow
-opencv-python-headless
-opencv-contrib-python==4.1.2.30
-opencv-python==4.1.2.30
+opencv-python
 dlib-bin
 streamlit
 joblib
