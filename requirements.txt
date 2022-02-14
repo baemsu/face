@@ -11,3 +11,4 @@ keras
 scipy
 seaborn
 scikit-image
+plotly
