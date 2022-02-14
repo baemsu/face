@@ -1,4 +1,3 @@
---upgrade pip
 numpy
 Pillow
 opencv-contrib-python
