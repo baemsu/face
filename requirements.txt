@@ -1,12 +1,13 @@
 numpy
 Pillow
 opencv-python-headless
+opencv-contrib-python==4.1.2.30
+opencv-python==4.1.2.30
 dlib-bin
 streamlit
 joblib
 matplotlib
 keras
 scipy
-opencv
 seaborn
 skimage
