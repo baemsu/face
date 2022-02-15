@@ -108,6 +108,26 @@ def photo():
 
 def video():
     st.title('캠코더입력')
+    import tempfile
+
+    f = st.file_uploader("Upload file")
+
+    tfile = tempfile.NamedTemporaryFile(delete=False) 
+    tfile.write(f.read())
+
+
+    vf = cv.VideoCapture(tfile.name)
+
+    stframe = st.empty()
+
+    while vf.isOpened():
+        ret, frame = vf.read()
+        # if frame is read correctly ret is True
+        if not ret:
+            print("Can't receive frame (stream end?). Exiting ...")
+            break
+        gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+        stframe.image(gray)
 
 
 selected_box = st.sidebar.selectbox('다음중 선택해주세요',('설명서','사진파일입력', '캠코더입력'))
