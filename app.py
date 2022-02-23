@@ -24,7 +24,9 @@ import numpy as np
 
 def welcome():
     st.title('이 앱은 나의 관상으로 보았을때 어떤 직업이 어울리는지 보는 앱입니다.')
-    st.subheader('이미지 또는 캠코더로 직접 입력 해 주세요.')   
+    st.subheader('이미지 또는 캠코더로 직접 입력 해 주세요.') 
+    st.subheader('모바일에서는 상단의 ">"를 클릭해 이미지입력 방식을 ') 
+    
     st.image('face_detection.jpeg',use_column_width=True)
 
 def photo():
@@ -159,50 +161,52 @@ def video():
 
           # st.image(pil_image, caption='PIL페이스', use_column_width=True)
 
+          try:
+              # Load the model
+              model = load_model('keras_model.h5')
 
-          # Load the model
-          model = load_model('keras_model.h5')
+              data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
 
-          data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
+              image = face
 
-          image = face
+              # #resize the image to a 224x224 with the same strategy as in TM2:
+              # #resizing the image to be at least 224x224 and then cropping from the center
+              size = (224, 224)
+              image = ImageOps.fit(image, size, Image.ANTIALIAS)
 
-          # #resize the image to a 224x224 with the same strategy as in TM2:
-          # #resizing the image to be at least 224x224 and then cropping from the center
-          size = (224, 224)
-          image = ImageOps.fit(image, size, Image.ANTIALIAS)
+              # #turn the image into a numpy array
+              image_array = np.asarray(image)
+              # # Normalize the image
+              normalized_image_array = (image_array.astype(np.float32) / 127.0) - 1
+              # # Load the image into the array
+              data[0] = normalized_image_array
 
-          # #turn the image into a numpy array
-          image_array = np.asarray(image)
-          # # Normalize the image
-          normalized_image_array = (image_array.astype(np.float32) / 127.0) - 1
-          # # Load the image into the array
-          data[0] = normalized_image_array
+              # # run the inference
 
-          # # run the inference
+              prediction = model.predict(data)
+              st.write(prediction)
 
-          prediction = model.predict(data)
-          st.write(prediction)
+              #첫번째 수치를 j에 입력
+              label_ = 0
+              result1 = "누구일까요?"
 
-          #첫번째 수치를 j에 입력
-          label_ = 0
-          result1 = "누구일까요?"
+             # label_ = prediction[0].index(max(prediction[0]))
+              label_ = np.argmax(prediction[0])
 
-         # label_ = prediction[0].index(max(prediction[0]))
-          label_ = np.argmax(prediction[0])
+              if label_ == 0:
+                  result1 = "정치인" 
+              if label_ == 1:
+                  result1 = "연예인"
+              if label_ == 2:
+                  result1 = "교수"
+              if label_ == 3:
+                  result1 = "CEO"  
+              if label_ == 4:
+                  result1 = "운동선수"
 
-          if label_ == 0:
-              result1 = "정치인" 
-          if label_ == 1:
-              result1 = "연예인"
-          if label_ == 2:
-              result1 = "교수"
-          if label_ == 3:
-              result1 = "CEO"  
-          if label_ == 4:
-              result1 = "운동선수"
-
-          st.write("나의 최적의 직업은?: "+ result1)
+              st.write("나의 최적의 직업은?: "+ result1)
+          except:
+              st.error('인물사진을 다시 촬영하세요.얼굴이 있는 사진이고 핸드폰 세로 사진입니다.')
 
 
 
@@ -213,6 +217,8 @@ if selected_box == '설명서':
     st.sidebar.write("모바일에서는 상단의 X를 눌러 원래화면으로 가세요")
 if selected_box == '사진파일입력':
     photo()
+    st.sidebar.write("모바일에서는 상단의 X를 눌러 원래화면으로 가세요")
 if selected_box == '캠코더입력':
     video()
+    st.sidebar.write("모바일에서는 상단의 X를 눌러 원래화면으로 가세요")
 
