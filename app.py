@@ -117,11 +117,11 @@ def video():
 
         # Check the type of cv2_img:
         # Should output: <class 'numpy.ndarray'>
-        st.write(type(cv2_img))
+#        st.write(type(cv2_img))
 
         # Check the shape of cv2_img:
         # Should output shape: (height, width, channels)
-        st.write(cv2_img.shape)
+#        st.write(cv2_img.shape)
 #        image = Image.open(uploaded_file)
 #        st.image( cv2_img , caption='선택된 이미지.', use_column_width=True)
     
@@ -134,13 +134,15 @@ def video():
           st.write("누구일까요")
         
         
-                  # pillow에서 cv로 변환
+          # pillow에서 cv로 변환
           numpy_image=np.array(image)  
           opencv_image=cv2.cvtColor(numpy_image, cv2.COLOR_RGB2BGR)
 
           #그레이로 변환
           gray = cv2.cvtColor(opencv_image, cv2.COLOR_BGR2GRAY)
           st.image(gray, caption='그레이변환.', use_column_width=True)
+        
+        
           # 페이스찾기
           face_detector = dlib.get_frontal_face_detector()
           detected_faces = face_detector(gray, 1)
@@ -207,7 +209,8 @@ def video():
 selected_box = st.sidebar.selectbox('다음중 선택해주세요',('설명서','사진파일입력', '캠코더입력'))
     
 if selected_box == '설명서':
-    welcome() 
+    welcome()
+    st.sidebar.write("모바일에서는 상단의 X를 눌러 원래화면으로 가세요")
 if selected_box == '사진파일입력':
     photo()
 if selected_box == '캠코더입력':
