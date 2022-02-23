@@ -122,6 +122,8 @@ def video():
         # Check the shape of cv2_img:
         # Should output shape: (height, width, channels)
         st.write(cv2_img.shape)
+#        image = Image.open(uploaded_file)
+        st.image( cv2_img , caption='선택된 이미지.', use_column_width=True)
 
 
 selected_box = st.sidebar.selectbox('다음중 선택해주세요',('설명서','사진파일입력', '캠코더입력'))
