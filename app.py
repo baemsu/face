@@ -125,10 +125,10 @@ def video():
 #        image = Image.open(uploaded_file)
 #        st.image( cv2_img , caption='선택된 이미지.', use_column_width=True)
     
-        uploaded_file = cv2_img
+    uploaded_file = cv2_img
     
-        if uploaded_file is not None:
-          image = Image.open(uploaded_file)
+    if uploaded_file is not None:
+          image = uploaded_file
           st.image(image, caption='선택된 이미지.', use_column_width=True)
           st.write("")
           st.write("누구일까요")
