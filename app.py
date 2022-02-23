@@ -132,6 +132,75 @@ def video():
           st.image(image, caption='선택된 이미지.', use_column_width=True)
           st.write("")
           st.write("누구일까요")
+        
+        
+                  # pillow에서 cv로 변환
+          numpy_image=np.array(image)  
+          opencv_image=cv2.cvtColor(numpy_image, cv2.COLOR_RGB2BGR)
+
+          #그레이로 변환
+          gray = cv2.cvtColor(opencv_image, cv2.COLOR_BGR2GRAY)
+          st.image(gray, caption='그레이변환.', use_column_width=True)
+          # 페이스찾기
+          face_detector = dlib.get_frontal_face_detector()
+          detected_faces = face_detector(gray, 1)
+          face_frames = [(x.left(), x.top(), x.right(), x.bottom()) for x in detected_faces]
+
+          for n, face_rect in enumerate(face_frames):
+            face = Image.fromarray(opencv_image).crop(face_rect)
+
+          st.image(face, caption='페이스', use_column_width=True)
+
+          # #cv를 pillow로 변환
+          # color_coverted = cv2.cvtColor(face, cv2.COLOR_BGR2RGB)
+          # pil_image=Image.fromarray(color_coverted)
+
+          # st.image(pil_image, caption='PIL페이스', use_column_width=True)
+
+
+          # Load the model
+          model = load_model('keras_model.h5')
+
+          data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
+
+          image = face
+
+          # #resize the image to a 224x224 with the same strategy as in TM2:
+          # #resizing the image to be at least 224x224 and then cropping from the center
+          size = (224, 224)
+          image = ImageOps.fit(image, size, Image.ANTIALIAS)
+
+          # #turn the image into a numpy array
+          image_array = np.asarray(image)
+          # # Normalize the image
+          normalized_image_array = (image_array.astype(np.float32) / 127.0) - 1
+          # # Load the image into the array
+          data[0] = normalized_image_array
+
+          # # run the inference
+
+          prediction = model.predict(data)
+          st.write(prediction)
+
+          #첫번째 수치를 j에 입력
+          label_ = 0
+          result1 = "누구일까요?"
+
+         # label_ = prediction[0].index(max(prediction[0]))
+          label_ = np.argmax(prediction[0])
+
+          if label_ == 0:
+              result1 = "정치인" 
+          if label_ == 1:
+              result1 = "연예인"
+          if label_ == 2:
+              result1 = "교수"
+          if label_ == 3:
+              result1 = "CEO"  
+          if label_ == 4:
+              result1 = "운동선수"
+
+          st.write("나의 최적의 직업은?: "+ result1)
 
 
 
