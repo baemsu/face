@@ -144,24 +144,24 @@ def video():
           gray = cv2.cvtColor(opencv_image, cv2.COLOR_BGR2GRAY)
           st.image(gray, caption='그레이변환.', use_column_width=True)
         
-        
-          # 페이스찾기
-          face_detector = dlib.get_frontal_face_detector()
-          detected_faces = face_detector(gray, 1)
-          face_frames = [(x.left(), x.top(), x.right(), x.bottom()) for x in detected_faces]
+          try:        
+              # 페이스찾기
+              face_detector = dlib.get_frontal_face_detector()
+              detected_faces = face_detector(gray, 1)
+              face_frames = [(x.left(), x.top(), x.right(), x.bottom()) for x in detected_faces]
 
-          for n, face_rect in enumerate(face_frames):
-            face = Image.fromarray(opencv_image).crop(face_rect)
+              for n, face_rect in enumerate(face_frames):
+                face = Image.fromarray(opencv_image).crop(face_rect)
 
-          st.image(face, caption='페이스', use_column_width=True)
+              st.image(face, caption='페이스', use_column_width=True)
 
-          # #cv를 pillow로 변환
-          # color_coverted = cv2.cvtColor(face, cv2.COLOR_BGR2RGB)
-          # pil_image=Image.fromarray(color_coverted)
+              # #cv를 pillow로 변환
+              # color_coverted = cv2.cvtColor(face, cv2.COLOR_BGR2RGB)
+              # pil_image=Image.fromarray(color_coverted)
 
-          # st.image(pil_image, caption='PIL페이스', use_column_width=True)
+              # st.image(pil_image, caption='PIL페이스', use_column_width=True)
 
-          try:
+
               # Load the model
               model = load_model('keras_model.h5')
 
